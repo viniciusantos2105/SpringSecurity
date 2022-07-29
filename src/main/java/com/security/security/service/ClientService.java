@@ -13,10 +13,6 @@ public class ClientService {
     @Autowired
     ClientRepository clientRepository;
 
-    public Client save(Client user){
-       return clientRepository.save(user);
-    }
-
     public List<Client> findAll(){
         return clientRepository.findAll();
     }

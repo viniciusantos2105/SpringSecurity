@@ -21,10 +21,28 @@ public class ClientServicImpl implements UserDetailsService {
     @Autowired
     private ClientRepository clientRepository;
 
+    public boolean findByUsername(String username){
+        if(clientRepository.findByUsername(username).isPresent()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean findByCpf(String cpf){
+        if(clientRepository.findByCpf(cpf).isPresent()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
        Client client = clientRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Usuario inválido"));
-
+       System.out.println(client.getCpf());
        String[] roles = client.isAdmin() ? new String[]{"ADMIN", "USER"} : new String[]{"USER"};
 
        return User.builder().username(client.getUsername()).password(client.getSenha()).roles().build();
