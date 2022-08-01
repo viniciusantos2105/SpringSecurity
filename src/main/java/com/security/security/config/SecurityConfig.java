@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable().authorizeRequests().
                 antMatchers("/user/create").
-                    permitAll()//QUEM TIVER A TAG USER PODERÁ ACESSAR ESSES END POINTS | hasAnyRole é para mais de uma role
+                    permitAll()
                 .antMatchers("/user/findAll")
-                    .hasRole("ADMIN")//hasRole é para apenas uma role
+                    .hasRole("ADMIN")
                 .and().httpBasic();
     }
 }
