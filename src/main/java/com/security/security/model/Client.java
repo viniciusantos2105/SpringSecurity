@@ -23,7 +23,7 @@ public class Client implements Serializable {
     private Long id;
     private String cpf;
     private String username;
-    private String senha;
+    private String password;
 
     private boolean admin;
 }

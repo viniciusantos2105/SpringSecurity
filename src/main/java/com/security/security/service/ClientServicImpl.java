@@ -1,5 +1,6 @@
 package com.security.security.service;
 
+import com.security.security.exception.PasswordInvalidException;
 import com.security.security.model.Client;
 import com.security.security.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,20 @@ public class ClientServicImpl implements UserDetailsService {
 
        String[] roles = client.isAdmin() ? new String[]{"ADMIN", "USER"} : new String[]{"USER"};
 
-       return User.builder().username(client.getUsername()).password(client.getSenha()).roles().build();
+       return User.builder().username(client.getUsername()).password(client.getPassword()).roles().build();
     }
 
     @Transactional
     public Client salvar(Client client){
        return clientRepository.save(client);
+    }
+
+    public UserDetails authentic(Client client){
+        UserDetails usuario = loadUserByUsername(client.getUsername());
+        boolean passwordEquals = encoder.matches(client.getPassword(), usuario.getPassword());
+        if(passwordEquals){
+            return usuario;
+        }
+        throw new PasswordInvalidException();
     }
 }

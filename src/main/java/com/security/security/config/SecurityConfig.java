@@ -44,13 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable().authorizeRequests().
-                antMatchers("/user/create").
-                    permitAll()
-                .antMatchers("/user/findAll")
-                    .hasRole("ADMIN")
+                antMatchers("/client/create")
+                    .permitAll()
+                .antMatchers("/client/findAll")
+                    .authenticated()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
